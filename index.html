@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BDE ATIDUT - Serveur Moddé</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+        background-color: #1a1a1a;
+        box-sizing: border-box;
+        padding: 40px;
+      }
+
+      .bg-video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        z-index: -999;
+        pointer-events: none;
+      }
+
+      .bg-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.35);
+        z-index: -998;
+        pointer-events: none;
+      }
+
+      .server-status {
+        position: absolute;
+        top: 25px;
+        left: 30px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 8px 16px;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(8px);
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #f59e0b;
+        border-radius: 50%;
+        display: inline-block;
+      }
+
+      .hero-center {
+        margin: auto;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      h1 {
+        margin: 0 0 10px 0;
+        font-size: 3.2rem;
+        letter-spacing: 3px;
+        font-weight: 800;
+        color: #ffffff;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+      }
+
+      h2 {
+        margin: 0 0 45px 0;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 6px;
+        color: rgba(255, 255, 255, 0.85);
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+      }
+
+      #play-button {
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 16px 55px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        border-radius: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+
+      #play-button:hover:not(:disabled) {
+        background: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.25);
+        transform: translateY(-3px);
+      }
+
+      #play-button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      #error-message {
+        margin-top: 25px;
+        font-size: 0.95rem;
+        min-height: 24px;
+        word-break: break-word;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+        font-weight: 500;
+      }
+
+      .footer-info {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.4);
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+        letter-spacing: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <video autoplay muted loop playsinline id="vid" class="bg-video">
+      <source src="background.mp4" type="video/mp4">
+    </video>
+    <div class="bg-overlay"></div>
+    <script>
+      document.getElementById('vid').play().catch(() => {});
+    </script>
+
+    <div class="server-status">
+      <span id="status-dot" class="status-dot"></span>
+      <span id="status-text">Vérification...</span>
+    </div>
+
+    <div class="hero-center">
+      <h1>BDE ATIDUT</h1>
+      <h2>Serveur Moddé</h2>
+      
+      <button id="play-button">JOUER</button>
+      <div id="error-message"></div>
+    </div>
+
+    <div class="footer-info">BDE ATIDUT Launcher v1.0.0</div>
+
+    <script type="module">
+      import { invoke } from '@tauri-apps/api/core';
+
+      const playButton = document.getElementById('play-button');
+      const messageDisplay = document.getElementById('error-message');
+
+      playButton.addEventListener('click', async () => {
+        playButton.disabled = true;
+        try {
+          messageDisplay.style.color = "#ffffff";
+          messageDisplay.innerText = "Synchronisation des mods...";
+          await invoke('sync_mods');
+
+          messageDisplay.innerText = "Lancement de Minecraft...";
+          await invoke('launch_minecraft');
+
+          messageDisplay.style.color = "#51cf66";
+          messageDisplay.innerText = "Jeu lancé avec succès !";
+        } catch (error) {
+          messageDisplay.style.color = "#ff6b6b";
+          messageDisplay.innerText = `Erreur: ${error}`;
+          console.error(error);
+        } finally {
+          playButton.disabled = false;
+        }
+      });
+
+      fetch('https://api.mcsrvstat.us/3/82.66.151.159')
+        .then(response => response.json())
+        .then(data => {
+          const statusText = document.getElementById('status-text');
+          const statusDot = document.getElementById('status-dot');
+          
+          if (data.online) {
+            statusText.innerText = `En ligne (${data.players.online}/${data.players.max})`;
+            statusDot.style.backgroundColor = '#51cf66';
+            statusDot.style.boxShadow = '0 0 8px #51cf66';
+          } else {
+            statusText.innerText = "Hors ligne";
+            statusDot.style.backgroundColor = '#ff6b6b';
+            statusDot.style.boxShadow = '0 0 8px #ff6b6b';
+          }
+        })
+        .catch(() => {
+          document.getElementById('status-text').innerText = "Statut indisponible";
+          document.getElementById('status-dot').style.backgroundColor = '#6b7280';
+        });
+    </script>
+  </body>
+</html>
