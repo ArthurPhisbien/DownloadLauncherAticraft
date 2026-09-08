@@ -864,19 +864,17 @@
       });
 
       // Fetch dynamique avec le lien raw exact
-      fetch('https://raw.githubusercontent.com/ArthurPhisbien/ModAticraft/refs/heads/master/mods.json')
-        .then(response => response.json())
-        .then(data => {
-          const container = document.getElementById('mods-list');
-          container.innerHTML = '';
-          data.mods.mods.forEach(mod => {
-            const card = document.createElement('div');
-            card.className = 'mod-card';
-            card.innerText = mod.name;
-            container.appendChild(card);
-          });
-        })
-        .catch(error => {
+      fetch('ton-api-ou-fichier-json')
+  .then(res => res.json())
+  .then(data => {
+    // On vérifie que data (ou le tableau des mods dedans) existe bien avant de boucler
+    const mods = Array.isArray(data) ? data : (data.mods || []);
+    
+    mods.forEach(mod => {
+      // Ton code d'affichage existant
+    });
+  })
+  .catch(error => {
           console.error('Erreur de chargement du manifeste des mods:', error);
           document.getElementById('mods-list').innerHTML = '<p style="color: #ff6b6b;">Erreur lors du chargement de la liste des mods.</p>';
         });
