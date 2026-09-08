@@ -864,20 +864,40 @@
       });
 
       // Fetch dynamique avec le lien raw exact
-      fetch('https://raw.githubusercontent.com/ArthurPhisbien/ModAticraft/refs/heads/master/mods.json')
-  .then(res => res.json())
+      fetch('mods.json', { cache: 'no-store' }) // Empêche le cache 304 bloquant
+  .then(response => {
+    if (!response.ok && response.status !== 304) {
+      throw new Error("Erreur réseau ou fichier introuvable");
+    }
+    return response.json();
+  })
   .then(data => {
-    // On vérifie que data (ou le tableau des mods dedans) existe bien avant de boucler
-    const mods = Array.isArray(data) ? data : (data.mods || []);
+    const container = document.getElementById('https://raw.githubusercontent.com/ArthurPhisbien/DownloadLauncherAticraft/refs/heads/main/mods.json'); // Mets l'ID de ton conteneur ici
+    if (!container) return;
     
+    container.innerHTML = ''; // Nettoie le "Chargement..."
+
+    // Sécurisation : on s'assure d'avoir un tableau valide
+    const mods = Array.isArray(data) ? data : (data.mods || []);
+
+    if (mods.length === 0) {
+      container.innerHTML = '<p>Aucun mod trouvé dans le manifeste.</p>';
+      return;
+    }
+
     mods.forEach(mod => {
-      // Ton code d'affichage existant
+      const p = document.createElement('p');
+      p.textContent = typeof mod === 'string' ? mod : (mod.name || 'Mod inconnu');
+      container.appendChild(p);
     });
   })
   .catch(error => {
-          console.error('Erreur de chargement du manifeste des mods:', error);
-          document.getElementById('mods-list').innerHTML = '<p style="color: #ff6b6b;">Erreur lors du chargement de la liste des mods.</p>';
-        });
+    console.error("Erreur de chargement des mods :", error);
+    const container = document.getElementById('id-de-ton-conteneur');
+    if (container) {
+      container.innerHTML = '<p>Erreur lors du chargement de la liste des mods.</p>';
+    }
+  });
     </script>
   </body>
 </html>
