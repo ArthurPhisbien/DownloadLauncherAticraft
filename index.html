@@ -872,7 +872,7 @@
     return response.json();
   })
   .then(data => {
-    const container = document.getElementById('https://raw.githubusercontent.com/ArthurPhisbien/DownloadLauncherAticraft/refs/heads/main/mods.json'); // Mets l'ID de ton conteneur ici
+    const container = document.getElementById('mods'); // Mets l'ID de ton conteneur ici
     if (!container) return;
     
     container.innerHTML = ''; // Nettoie le "Chargement..."
