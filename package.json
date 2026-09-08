@@ -1,0 +1,16 @@
+{
+  "name": "aticraft-webhook",
+  "version": "1.0.0",
+  "description": "Webhook HelloAsso pour Aticraft",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "body-parser": "^1.20.2",
+    "dotenv": "^17.4.2",
+    "express": "^4.18.2",
+    "rcon-client": "^4.2.1"
+  }
+}

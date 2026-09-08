@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Aticraft</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="icon.png" />
+
+    <!-- Balises OpenGraph (Grande image Discord) -->
+    <meta property="og:title" content="Aticraft - Serveur BDE ATIDUT" />
+    <meta property="og:description" content="Rejoignez la Saison 1 du serveur Minecraft Moddé exclusif du BDE ATIDUT. Ouvre bientôt !" />
+    <meta property="og:image" content="https://github.com/ArthurPhisbien/DownloadLauncherAticraft/blob/main/icon.png?raw=true" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#a94b3e" />
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+      :root {
+        --bg-base: #080808;
+        --text-main: #eaddc0;
+        --text-muted: rgba(234, 221, 192, 0.65);
+        --accent: #a94b3e;
+        --accent-hover: #c45a4a;
+        --accent-glow: rgba(169, 75, 62, 0.4);
+        --glass-bg: rgba(255, 255, 255, 0.03);
+        --glass-border: rgba(169, 75, 62, 0.15);
+        --card-bg: rgba(255, 255, 255, 0.04);
+        --card-border: rgba(169, 75, 62, 0.2);
+        --overlay-fade: linear-gradient(to bottom, rgba(8, 8, 8, 0) 0%, rgba(8, 8, 8, 0.75) 50%, #080808 100%);
+      }
+
+      [data-theme="light"] {
+        --bg-base: #eaddc0;
+        --text-main: #3b2824;
+        --text-muted: rgba(59, 40, 36, 0.75);
+        --accent: #9e433a;
+        --accent-hover: #7a322b;
+        --accent-glow: rgba(158, 67, 58, 0.4);
+        --glass-bg: rgba(255, 255, 255, 0.4);
+        --glass-border: rgba(158, 67, 58, 0.2);
+        --card-bg: rgba(255, 255, 255, 0.5);
+        --card-border: rgba(158, 67, 58, 0.25);
+        --overlay-fade: linear-gradient(to bottom, rgba(234, 221, 192, 0) 0%, rgba(234, 221, 192, 0.75) 50%, #eaddc0 100%);
+      }
+
+      /* Easter Egg Hacker Mode */
+      body.hacker-mode {
+        position: relative;
+      }
+      body.hacker-mode::after {
+        content: "";
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        background: linear-gradient(
+          rgba(18, 16, 16, 0) 50%, 
+          rgba(0, 0, 0, 0.25) 50%
+        ), linear-gradient(
+          90deg,
+          rgba(255, 0, 0, 0.06),
+          rgba(0, 255, 0, 0.02),
+          rgba(0, 0, 255, 0.06)
+        );
+        background-size: 100% 4px, 6px 100%;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0.6;
+      }
+      .hacker-scanline {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 15vh;
+        background: linear-gradient(to bottom, transparent, rgba(0, 255, 0, 0.15), transparent);
+        pointer-events: none;
+        z-index: 10000;
+        animation: scan 3s linear infinite;
+      }
+      body.hacker-mode .hacker-scanline { display: block; }
+      body.hacker-mode h1, 
+      body.hacker-mode .tag, 
+      body.hacker-mode .logo-area {
+        text-shadow: 0 0 8px rgba(0, 255, 0, 0.6);
+      }
+      @keyframes scan {
+        0% { transform: translateY(-100vh); }
+        100% { transform: translateY(110vh); }
+      }
+
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg-base);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--card-border);
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--accent);
+      }
+
+      body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        color: var(--text-main);
+        background-color: var(--bg-base);
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .bg-image {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-image: url('FondSite.png');
+        background-size: cover;
+        background-position: center top;
+        background-repeat: no-repeat;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .overlay {
+        position: fixed;
+        top: 0; 
+        left: 0; 
+        width: 100vw; 
+        height: 100vh;
+        background: var(--overlay-fade);
+        z-index: 2;
+        pointer-events: none;
+        transition: background 0.3s ease;
+      }
+
+      .ambient-glow {
+        position: fixed;
+        top: 20%; left: 50%;
+        transform: translateX(-50%);
+        width: 600px; height: 300px;
+        background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+        z-index: 3;
+        pointer-events: none;
+      }
+
+      /* Bannière d'annonce */
+      .top-banner {
+        position: relative;
+        z-index: 20;
+        background: var(--accent);
+        color: var(--bg-base);
+        text-align: center;
+        padding: 12px 20px;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 15px var(--accent-glow);
+      }
+      .top-banner a {
+        color: var(--bg-base);
+        text-decoration: underline;
+      }
+
+      .page-wrapper {
+        position: relative;
+        z-index: 10;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 30px 80px 40px 80px;
+        box-sizing: border-box;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1300px;
+        width: 100%;
+        margin: 0 auto 30px auto;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        padding: 18px 32px;
+        border-radius: 20px;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+      }
+
+      .logo-area {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 11px;
+        letter-spacing: 1px;
+        color: var(--accent);
+        text-shadow: 0 0 10px var(--accent-glow);
+      }
+
+      .server-status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        padding: 6px 14px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text-main);
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #6b7280;
+        border-radius: 50%;
+        display: inline-block;
+        transition: all 0.3s ease;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 30px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-muted);
+        letter-spacing: 1px;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: inherit;
+        text-decoration: none;
+        cursor: pointer;
+        transition: color 0.2s ease;
+      }
+
+      .nav-links a:hover, .nav-links a.active {
+        color: var(--accent);
+      }
+
+      .discord-btn {
+        background: rgba(88, 101, 242, 0.1);
+        border: 1px solid rgba(88, 101, 242, 0.3) !important;
+        color: #5865F2 !important;
+        padding: 8px 14px;
+        border-radius: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+        transition: all 0.2s ease;
+      }
+
+      .discord-btn:hover {
+        background: #5865F2;
+        color: #fff !important;
+        border-color: #5865F2 !important;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(88, 101, 242, 0.4);
+      }
+
+      .discord-btn svg {
+        width: 16px;
+        height: 16px;
+        fill: currentColor;
+      }
+
+      .theme-toggle {
+        background: none;
+        border: 1px solid var(--card-border);
+        color: var(--text-main);
+        padding: 8px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+      }
+
+      .theme-toggle:hover {
+        background: var(--glass-bg);
+        color: var(--accent);
+      }
+
+      .main-content {
+        max-width: 1300px;
+        width: 100%;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1.3fr 0.7fr;
+        gap: 30px;
+        align-items: center;
+      }
+
+      .hero-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid var(--card-border);
+        border-radius: 36px;
+        padding: 60px;
+        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 36px; right: 36px; height: 2px;
+        background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        background: var(--glass-bg);
+        border: 1px solid var(--accent-glow);
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-family: 'Press Start 2P', monospace;
+        font-size: 8px;
+        letter-spacing: 1px;
+        color: var(--accent);
+        margin-bottom: 25px;
+      }
+
+      h1 {
+        font-size: 54px;
+        font-weight: 800;
+        margin: 0 0 20px 0;
+        line-height: 1.05;
+        letter-spacing: -1.5px;
+        color: var(--text-main);
+      }
+
+      .description {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--text-muted);
+        line-height: 1.7;
+        margin-bottom: 30px;
+        max-width: 520px;
+      }
+
+      /* Bouton IP Grisé */
+      .ip-disabled-box {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px dashed rgba(255, 255, 255, 0.15);
+        padding: 10px 16px;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.3);
+        cursor: not-allowed;
+        margin-bottom: 30px;
+        gap: 10px;
+      }
+
+      .action-row {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+      }
+
+      .download-btn {
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: 16px;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 20px 36px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        letter-spacing: 0.5px;
+        box-shadow: 0 10px 30px var(--accent-glow);
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .download-btn svg {
+        width: 16px;
+        height: 16px;
+        fill: currentColor;
+      }
+
+      .download-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 40px var(--accent-glow);
+        background: var(--accent-hover);
+      }
+
+      .meta-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .meta-info span:first-child {
+        color: var(--text-main);
+        font-weight: 600;
+      }
+
+      .features-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .feature-box {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        padding: 24px 28px;
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        transition: all 0.3s ease;
+      }
+
+      .feature-box:hover {
+        background: var(--card-bg);
+        border-color: var(--accent);
+        transform: translateX(4px);
+      }
+
+      .feature-icon {
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+        background: var(--glass-bg);
+        border: 1px solid var(--accent);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Press Start 2P', monospace;
+        font-size: 11px;
+        color: var(--accent);
+      }
+
+      .feature-text h3 {
+        margin: 0 0 6px 0;
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text-main);
+        letter-spacing: 0.5px;
+      }
+
+      .feature-text p {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-muted);
+        line-height: 1.5;
+      }
+
+      .feature-text a {
+        color: var(--accent);
+        text-decoration: underline;
+      }
+
+      .section-details {
+        max-width: 1300px;
+        width: 100%;
+        margin: 40px auto 0 auto;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 36px;
+        padding: 50px;
+        box-sizing: border-box;
+      }
+
+      .section-details h2 {
+        font-size: 28px;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 20px;
+        color: var(--text-main);
+      }
+
+      .section-details p {
+        font-size: 15px;
+        color: var(--text-muted);
+        line-height: 1.6;
+        font-weight: 500;
+      }
+
+      .performance-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 25px;
+      }
+      
+      .perf-item {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        padding: 15px 20px;
+        border-radius: 16px;
+      }
+
+      .perf-item strong {
+        display: block;
+        color: var(--accent);
+        margin-bottom: 5px;
+        font-size: 14px;
+      }
+
+      .perf-item span {
+        color: var(--text-main);
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .mod-card {
+        background: var(--card-bg) !important;
+        border: 1px solid var(--card-border) !important;
+        color: var(--text-main) !important;
+        border-radius: 16px;
+        padding: 15px 20px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.25s ease;
+      }
+
+      .mod-card:hover {
+        background: var(--glass-bg) !important;
+        border-color: var(--accent) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px var(--accent-glow);
+      }
+
+      footer {
+        max-width: 1300px;
+        width: 100%;
+        margin: 60px auto 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text-muted);
+        border-top: 1px solid var(--card-border);
+        padding-top: 24px;
+        letter-spacing: 0.5px;
+      }
+
+      /* Styles responsives pour téléphones et tablettes */
+      @media (max-width: 992px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+        .page-wrapper {
+          padding: 15px;
+        }
+        header {
+          flex-direction: column;
+          gap: 12px;
+          padding: 15px;
+          border-radius: 16px;
+        }
+        .nav-links {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 12px;
+        }
+        .nav-links a {
+          font-size: 12px;
+        }
+        .discord-btn {
+          padding: 6px 12px;
+          font-size: 12px;
+        }
+        .theme-toggle {
+          padding: 6px;
+        }
+        h1 {
+          font-size: 36px;
+        }
+        .hero-card, .section-details {
+          padding: 24px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 30px;
+        }
+        .action-row {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body id="accueil">
+    <!-- Overlay Hacker Scanline -->
+    <div class="hacker-scanline"></div>
+
+    <div class="bg-image"></div>
+    <div class="overlay"></div>
+    <div class="ambient-glow"></div>
+
+    <!-- Bannière temporaire -->
+    <div class="top-banner">
+      🚧 Le serveur ouvre bientôt ! Plus d'informations et annonce officielle sur notre <a href="https://discord.gg/aEvar3gZad" target="_blank">Discord</a>.
+    </div>
+
+    <div class="page-wrapper">
+      <header>
+        <div class="logo-area">Aticraft</div>
+        
+        <div class="server-status-pill">
+          <span id="header-dot" class="status-dot"></span>
+          <span id="header-status-text">Fermé temporairement</span>
+        </div>
+
+        <div class="nav-links">
+          <a href="/accueil">Accueil</a>
+          <a href="https://trezor.atidut.fr">Trezor</a>
+          <a href="#accueil" class="active">Aticraft</a>
+          <a href="#boutique">Boutique</a>
+          
+          <a href="https://discord.gg/aEvar3gZad" target="_blank" class="discord-btn" title="Rejoindre le Discord">
+            <svg viewBox="0 0 127.14 96.36">
+              <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a67.55,67.55,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1,105.25,105.25,0,0,0,32.19-16.14c2.64-27.38-4.51-51.11-18.9-72.15ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53C53.89,60,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.31,60,73.31,53s5-12.74,11.43-12.74S96.2,46,96.12,53C96.12,60,91.08,65.69,84.69,65.69Z"/>
+            </svg>
+            Discord
+          </a>
+
+          <button class="theme-toggle" onclick="toggleTheme()" title="Changer le thème">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="main-content">
+        <div class="hero-card">
+          <div class="tag">SAISON 1 - v1.20.1</div>
+          <h1>L'Aventure Moddée Ultime.</h1>
+          <p class="description">
+            Rejoins le serveur du BDE ! Suis les étapes d'installation ci-contre, puis télécharge notre application pour synchroniser automatiquement les mods en un clic.
+          </p>
+
+          <!-- Bouton IP Grisé -->
+          <div class="ip-disabled-box" title="L'IP sera dévoilée à l'ouverture">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <span>IP : <strong>Bientôt disponible</strong></span>
+          </div>
+
+          <div class="action-row">
+            <a href="https://github.com/ArthurPhisbien/DownloadLauncherAticraft/releases/download/v1.0.0/Aticraft.Launcher_0.1.0_x64-setup.exe" class="download-btn">
+              <svg viewBox="0 0 24 24"><path d="M12 3v13m0 0l-5-5m5 5l5-5M4 21h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Télécharger le Launcher
+            </a>
+            <div class="meta-info">
+              <span>v1.0.0.exe</span>
+              <span>Windows x64 / Sécurisé</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="features-stack">
+          <div class="feature-box">
+            <div class="feature-icon">1</div>
+            <div class="feature-text">
+              <h3>Minecraft de Base</h3>
+              <p>Lance le launcher officiel de Minecraft en version 1.20.1 au moins une fois pour initialiser les fichiers.</p>
+            </div>
+          </div>
+
+          <div class="feature-box">
+            <div class="feature-icon">2</div>
+            <div class="feature-text">
+              <h3>Installation de Forge 47.4.18</h3>
+              <p>Télécharge et installe manuellement <a href="https://files.minecraftforge.net/net/minecraftforge/forge/index_1.20.1.html" target="_blank">Forge 1.20.1</a> en mode "Install client".</p>
+            </div>
+          </div>
+
+          <div class="feature-box">
+            <div class="feature-icon">3</div>
+            <div class="feature-text">
+              <h3>Synchronisation</h3>
+              <p>Lance notre launcher pour télécharger automatiquement tous les mods du serveur dans ton dossier.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-details">
+        <h2>Configuration Performance</h2>
+        <p>Matériel minimum requis pour jouer dans de bonnes conditions (30+ FPS) :</p>
+        <div class="performance-grid">
+          <div class="perf-item">
+            <strong>Mémoire (RAM)</strong>
+            <span>8 Go total (4 à 6 Go alloués)</span>
+          </div>
+          <div class="perf-item">
+            <strong>Processeur (CPU)</strong>
+            <span>Intel Core i5 / AMD Ryzen 3</span>
+          </div>
+          <div class="perf-item">
+            <strong>Graphisme (GPU)</strong>
+            <span>GTX 960 / Radeon R9 (2Go VRAM)</span>
+          </div>
+          <div class="perf-item">
+            <strong>Stockage</strong>
+            <span>SSD fortement recommandé</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section des mods -->
+      <div id="mods" class="section-details">
+        <h2>Liste des Mods Synchronisés</h2>
+        <p>Le serveur intègre les mods suivants, synchronisés automatiquement :</p>
+        <div id="mods-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-top: 20px;">
+          <p style="color: var(--text-muted); font-size: 14px;">Chargement de la liste des mods...</p>
+        </div>
+      </div>
+
+      <!-- Section Boutique / Soutien BDE -->
+      <div id="boutique" class="section-details">
+        <!-- En-tête de section avec le style de ton image -->
+        <div style="margin-bottom: 25px;">
+          <h2 style="font-size: 28px; font-weight: 700; margin: 0 0 8px 0; color: var(--text-main); letter-spacing: -0.5px;">In a few words</h2>
+          <p style="font-size: 14px; color: var(--text-muted); margin: 0; font-weight: 500;">This presentation will be displayed above your pricing grid.</p>
+        </div>
+
+        <p style="margin-bottom: 25px;">Aticraft est un serveur géré par le BDE ATIDUT. Participer aux frais d'hébergement te donne droit à des bonus cosmétiques et de confort in-game, sans jamais casser l'équilibrage du jeu (zéro pay-to-win).</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+          
+          <!-- Grade Étudiant de Poche -->
+          <div style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 24px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--accent); background: var(--glass-bg); border: 1px solid var(--accent-glow); padding: 6px 12px; border-radius: 6px; display: inline-block; margin-bottom: 15px;">ENTRÉE DE GAMME</span>
+              <h3 style="margin: 0 0 10px 0; font-size: 20px; color: var(--text-main);">Pack Étudiant</h3>
+              <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
+                Le prix d'un espresso pour filer un coup de pouce rapide au BDE et obtenir quelques conforts pratiques.
+              </p>
+              <ul style="margin: 0; padding-left: 18px; font-size: 13px; color: var(--text-main); display: flex; flex-direction: column; gap: 8px;">
+                <li>Préfixe coloré <strong>[Soutien]</strong> dans le chat</li>
+                <li>Commande <code>/workbench</code> portable</li>
+                <li>1 home supplémentaire sauvegardé</li>
+              </ul>
+            </div>
+            <div style="margin-top: 30px; display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 18px; font-weight: 700; color: var(--accent);">2 €</span>
+              <a href="https://www.helloasso.com/associations/association-toulousaine-des-informaticiens-preparant-un-diplome-universitaire-de-technologie/boutiques/aticraft-sub" target="_blank" class="download-btn" style="padding: 10px 20px; font-size: 12px;">Obtenir</a>
+            </div>
+          </div>
+
+          <!-- Grade Mécène / VIP -->
+          <div style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 24px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--accent); background: var(--glass-bg); border: 1px solid var(--accent-glow); padding: 6px 12px; border-radius: 6px; display: inline-block; margin-bottom: 15px;">POPULAIRE</span>
+              <h3 style="margin: 0 0 10px 0; font-size: 20px; color: var(--text-main);">Pack BDE Mécène</h3>
+              <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
+                Idéal pour les étudiants qui veulent flex un peu tout en finançant la machine du serveur.
+              </p>
+              <ul style="margin: 0; padding-left: 18px; font-size: 13px; color: var(--text-main); display: flex; flex-direction: column; gap: 8px;">
+                <li>Préfixe exclusif <strong>[Mécène]</strong> dans le chat</li>
+                <li>Commande <code>/hat</code> (mettre n'importe quel bloc sur sa tête)</li>
+                <li>3 homes supplémentaires</li>
+                <li>Accès prioritaire au skin personnalisé (Serveur Crack)</li>
+                <li>Rôle exclusif sur le Discord de l'asso</li>
+              </ul>
+            </div>
+            <div style="margin-top: 30px; display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 18px; font-weight: 700; color: var(--accent);">5 €</span>
+              <a href="https://www.helloasso.com/associations/association-toulousaine-des-informaticiens-preparant-un-diplome-universitaire-de-technologie/boutiques/aticraft-sub" target="_blank" class="download-btn" style="padding: 10px 20px; font-size: 12px;">Obtenir</a>
+            </div>
+          </div>
+
+          <!-- Pack Légende / Collector -->
+          <div style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 24px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--accent); background: var(--glass-bg); border: 1px solid var(--accent-glow); padding: 6px 12px; border-radius: 6px; display: inline-block; margin-bottom: 15px;">LÉGENDE</span>
+              <h3 style="margin: 0 0 10px 0; font-size: 20px; color: var(--text-main);">Pack Légende IUT</h3>
+              <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
+                Pour les plus investis qui veulent marquer le coup et soutenir à fond la Saison 1.
+              </p>
+              <ul style="margin: 0; padding-left: 18px; font-size: 13px; color: var(--text-main); display: flex; flex-direction: column; gap: 8px;">
+                <li>Préfixe personnalisé <strong>[Légende]</strong></li>
+                <li>Tous les avantages des grades précédents</li>
+                <li>Particules cosmétiques de déplacement</li>
+                <li>Nom gravé sur un monument commémoratif au spawn</li>
+              </ul>
+            </div>
+            <div style="margin-top: 30px; display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 18px; font-weight: 700; color: var(--accent);">10 €</span>
+              <a href="https://www.helloasso.com/associations/association-toulousaine-des-informaticiens-preparant-un-diplome-universitaire-de-technologie/boutiques/aticraft-sub" target="_blank" class="download-btn" style="padding: 10px 20px; font-size: 12px;">Obtenir</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <footer>
+        <div>2026 BDE ATIDUT - Universite Paul Sabatier</div>
+        <div>Developpe sous Tauri et GitHub Pages</div>
+      </footer>
+    </div>
+
+    <script>
+      function toggleTheme() {
+        const doc = document.documentElement;
+        if (doc.getAttribute('data-theme') === 'light') {
+          doc.removeAttribute('data-theme');
+        } else {
+          doc.setAttribute('data-theme', 'light');
+        }
+      }
+
+      // Easter Egg Hacker Mode (Taper "sudo" sur le clavier)
+      let konamiCode = [];
+      const secretWord = "sudo";
+      window.addEventListener('keydown', (e) => {
+        konamiCode.push(e.key.toLowerCase());
+        konamiCode = konamiCode.slice(-secretWord.length);
+        if(konamiCode.join('') === secretWord) {
+          document.body.classList.toggle('hacker-mode');
+        }
+      });
+
+      // Fetch dynamique avec le lien raw exact
+      fetch('https://raw.githubusercontent.com/ArthurPhisbien/ModAticraft/refs/heads/master/mods.json')
+        .then(response => response.json())
+        .then(data => {
+          const container = document.getElementById('mods-list');
+          container.innerHTML = '';
+          data.mods.mods.forEach(mod => {
+            const card = document.createElement('div');
+            card.className = 'mod-card';
+            card.innerText = mod.name;
+            container.appendChild(card);
+          });
+        })
+        .catch(error => {
+          console.error('Erreur de chargement du manifeste des mods:', error);
+          document.getElementById('mods-list').innerHTML = '<p style="color: #ff6b6b;">Erreur lors du chargement de la liste des mods.</p>';
+        });
+    </script>
+  </body>
+</html>
