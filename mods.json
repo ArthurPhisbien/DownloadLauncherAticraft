@@ -1,0 +1,266 @@
+{
+  "version": "1.0.0",
+  "minecraft_version": "1.20.1",
+  "mods": [
+    {
+      "name": "Alex's Mobs",
+      "filename": "alexsmobs-1.22.9.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/alexsmobs-1.22.9.jar"
+    },
+    {
+      "name": "Applied Energistics 2",
+      "filename": "appliedenergistics2-forge-15.4.10.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/appliedenergistics2-forge-15.4.10.jar"
+    },
+    {
+      "name": "Aquaculture 2",
+      "filename": "Aquaculture-1.20.1-2.5.7.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/Aquaculture-1.20.1-2.5.7.jar"
+    },
+    {
+      "name": "Aquamirae",
+      "filename": "aquamirae-forge-1.20.1-6.4.0.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/aquamirae-forge-1.20.1-6.4.0.jar"
+    },
+    {
+      "name": "Architect's Palette",
+      "filename": "Architects-Palette-1.20.1-1.3.6.1.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/Architects-Palette-1.20.1-1.3.6.1.jar"
+    },
+    {
+      "name": "Architectury API",
+      "filename": "architectury-9.2.14-forge.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/architectury-9.2.14-forge.jar"
+    },
+    {
+      "name": "Ars Nouveau",
+      "filename": "ars_nouveau-1.20.1-4.12.7-all.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/ars_nouveau-1.20.1-4.12.7-all.jar"
+    },
+    {
+      "name": "Artifacts",
+      "filename": "artifacts-forge-9.5.19.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/artifacts-forge-9.5.19.jar"
+    },
+    {
+      "name": "Balm",
+      "filename": "balm-forge-1.20.1-7.3.42.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/balm-forge-1.20.1-7.3.42.jar"
+    },
+    {
+      "name": "Better Villages",
+      "filename": "bettervillage-forge-1.20.1-3.3.1-all.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/bettervillage-forge-1.20.1-3.3.1-all.jar"
+    },
+    {
+      "name": "Biomes O' Plenty",
+      "filename": "BiomesOPlenty-1.20.1-18.0.0.592.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/BiomesOPlenty-1.20.1-18.0.0.592.jar"
+    },
+    {
+      "name": "Bosses'Rise",
+      "filename": "block_factorys_bosses-2.1.2-forge-1.20.1.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/block_factorys_bosses-2.1.2-forge-1.20.1.jar"
+    },
+    {
+      "name": "Cloth Config API",
+      "filename": "cloth-config-11.1.136-forge.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/cloth-config-11.1.136-forge.jar"
+    },
+    {
+      "name": "Corpse",
+      "filename": "corpse-forge-1.20.1-1.0.23.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/corpse-forge-1.20.1-1.0.23.jar"
+    },
+    {
+      "name": "Create",
+      "filename": "create-1.20.1-6.0.8.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/create-1.20.1-6.0.8.jar"
+    },
+    {
+      "name": "Cristel Lib",
+      "filename": "cristellib-1.1.6-forge.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/cristellib-1.1.6-forge.jar"
+    },
+    {
+      "name": "Cupboard",
+      "filename": "cupboard-1.20.1-4.1.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/cupboard-1.20.1-4.1.jar"
+    },
+    {
+      "name": "Curios API",
+      "filename": "curios-forge-5.14.1+1.20.1.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/curios-forge-5.14.1+1.20.1.jar"
+    },
+    {
+      "name": "Dungeons and Taverns",
+      "filename": "dungeons-and-taverns-3.0.3.f[Forge].jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/dungeons-and-taverns-3.0.3.f[Forge].jar"
+    },
+    {
+      "name": "Embeddium",
+      "filename": "embeddium-0.3.31+mc1.20.1.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/embeddium-0.3.31+mc1.20.1.jar"
+    },
+    {
+      "name": "Entity Culling",
+      "filename": "entityculling-forge-1.10.5-mc1.20.1.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/entityculling-forge-1.10.5-mc1.20.1.jar"
+    },
+    {
+      "name": "Farmer's Delight",
+      "filename": "FarmersDelight-1.20.1-1.3.4.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/FarmersDelight-1.20.1-1.3.4.jar"
+    },
+    {
+      "name": "FerriteCore",
+      "filename": "ferritecore-6.0.1-forge.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/ferritecore-6.0.1-forge.jar"
+    },
+    {
+      "name": "Framework",
+      "filename": "framework-forge-1.20.1-0.8.0.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/framework-forge-1.20.1-0.8.0.jar"
+    },
+    {
+      "name": "GeckoLib",
+      "filename": "geckolib-forge-1.20.1-4.8.4.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/geckolib-forge-1.20.1-4.8.4.jar"
+    },
+    {
+      "name": "Goblin Traders",
+      "filename": "goblintraders-forge-1.20.1-1.11.5.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/goblintraders-forge-1.20.1-1.11.5.jar"
+    },
+    {
+      "name": "GuideME",
+      "filename": "guideme-20.1.15.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/guideme-20.1.15.jar"
+    },
+    {
+      "name": "Handcrafted",
+      "filename": "handcrafted-forge-1.20.1-3.0.6.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/handcrafted-forge-1.20.1-3.0.6.jar"
+    },
+    {
+      "name": "Ice and Fire",
+      "filename": "iceandfire-2.1.13-1.20.1-beta-5.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/iceandfire-2.1.13-1.20.1-beta-5.jar"
+    },
+    {
+      "name": "Illager Warship",
+      "filename": "illagerwarship-1.0.1-forge-1.20.1.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/illagerwarship-1.0.1-forge-1.20.1.jar"
+    },
+    {
+      "name": "Iron Furnaces",
+      "filename": "ironfurnaces-1.20.1-4.1.8.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/ironfurnaces-1.20.1-4.1.8.jar"
+    },
+    {
+      "name": "Jade",
+      "filename": "Jade-1.20.1-Forge-11.13.3.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/Jade-1.20.1-Forge-11.13.3.jar"
+    },
+    {
+      "name": "Jade Addons",
+      "filename": "JadeAddons-1.20.1-Forge-5.5.1.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/JadeAddons-1.20.1-Forge-5.5.1.jar"
+    },
+    {
+      "name": "Just Enough Items",
+      "filename": "jei-1.20.1-forge-15.56.0.205.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/jei-1.20.1-forge-15.56.0.205.jar"
+    },
+    {
+      "name": "Library Ferret",
+      "filename": "libraryferret-forge-1.20.1-4.0.0.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/libraryferret-forge-1.20.1-4.0.0.jar"
+    },
+    {
+      "name": "Lootr",
+      "filename": "lootr-forge-1.20-0.7.35.94.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/lootr-forge-1.20-0.7.35.94.jar"
+    },
+    {
+      "name": "Obscure API",
+      "filename": "obscure_api-18.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/obscure_api-18.jar"
+    },
+    {
+      "name": "Oculus",
+      "filename": "oculus-mc1.20.1-1.8.0.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/oculus-mc1.20.1-1.8.0.jar"
+    },
+    {
+      "name": "Pipez",
+      "filename": "pipez-forge-1.20.1-1.2.26.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/pipez-forge-1.20.1-1.2.26.jar"
+    },
+    {
+      "name": "Relics",
+      "filename": "relics-1.20.1-0.8.0.13.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/relics-1.20.1-0.8.0.13.jar"
+    },
+    {
+      "name": "Resourceful Lib",
+      "filename": "resourcefullib-forge-1.20.1-2.1.29.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/resourcefullib-forge-1.20.1-2.1.29.jar"
+    },
+    {
+      "name": "OctoLib",
+      "filename": "OctoLib-FORGE-0.5.0.1+1.20.1.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/OctoLib-FORGE-0.5.0.1+1.20.1.jar"
+    },
+    {
+      "name": "Sophisticated Backpacks",
+      "filename": "sophisticatedbackpacks-1.20.1-3.24.67.2109.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/sophisticatedbackpacks-1.20.1-3.24.67.2109.jar"
+    },
+    {
+      "name": "Sophisticated Core",
+      "filename": "sophisticatedcore-1.20.1-1.5.0.2316.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/sophisticatedcore-1.20.1-1.5.0.2316.jar"
+    },
+    {
+      "name": "Storage Drawers",
+      "filename": "StorageDrawers-forge-1.20.1-12.14.3.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/StorageDrawers-forge-1.20.1-12.14.3.jar"
+    },
+    {
+      "name": "TerraBlender",
+      "filename": "TerraBlender-forge-1.20.1-3.0.1.10.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/TerraBlender-forge-1.20.1-3.0.1.10.jar"
+    },
+    {
+      "name": "The Aether",
+      "filename": "aether-1.20.1-1.5.2-neoforge.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/aether-1.20.1-1.5.2-neoforge.jar"
+    },
+    {
+      "name": "The Twilight Forest",
+      "filename": "twilightforest-1.20.1-4.3.2508-universal.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/twilightforest-1.20.1-4.3.2508-universal.jar"
+    },
+    {
+      "name": "Towns and Towers",
+      "filename": "Towns-and-Towers-1.12-Fabric+Forge.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/Towns-and-Towers-1.12-Fabric+Forge.jar"
+    },
+    {
+      "name": "Waystones",
+      "filename": "waystones-forge-1.20.1-14.1.20.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/waystones-forge-1.20.1-14.1.20.jar"
+    },
+    {
+      "name": "Xaero's Minimap",
+      "filename": "xaerominimap-forge-1.20.1-26.4.2.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/xaerominimap-forge-1.20.1-26.4.2.jar"
+    },
+    {
+      "name": "Xaero's World Map",
+      "filename": "xaeroworldmap-forge-1.20.1-1.45.0.jar",
+      "url": "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/mods/xaeroworldmap-forge-1.20.1-1.45.0.jar"
+    }
+  ]
+}
