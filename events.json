@@ -1,0 +1,8 @@
+{
+  "active": true,
+  "title": "Chasse aux trésors au Spawn !",
+  "description": "Des coffres cachés remplis de loots légendaires t'attendent autour du spawn principal. Ouvre l'œil !",
+  "imageUrl": "event.png",
+  "statusText": "En cours ⚡",
+  "reward": "Armure en Netherite custom"
+}

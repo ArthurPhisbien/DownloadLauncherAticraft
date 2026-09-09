@@ -15,6 +15,9 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#a94b3e" />
 
+    <!-- Inclusion de Chart.js pour les graphiques -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
       @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -537,24 +540,6 @@
         font-weight: 600;
       }
 
-      .mod-card {
-        background: var(--card-bg) !important;
-        border: 1px solid var(--card-border) !important;
-        color: var(--text-main) !important;
-        border-radius: 16px;
-        padding: 15px 20px;
-        font-size: 14px;
-        font-weight: 600;
-        transition: all 0.25s ease;
-      }
-
-      .mod-card:hover {
-        background: var(--glass-bg) !important;
-        border-color: var(--accent) !important;
-        transform: translateY(-2px);
-        box-shadow: 0 10px 30px var(--accent-glow);
-      }
-
       footer {
         max-width: 1300px;
         width: 100%;
@@ -645,7 +630,6 @@
           <a href="/accueil">Accueil</a>
           <a href="https://trezor.atidut.fr">Trezor</a>
           <a href="#accueil" class="active">Aticraft</a>
-          <a href="#boutique">Boutique</a>
           
           <a href="https://discord.gg/aEvar3gZad" target="_blank" class="discord-btn" title="Rejoindre le Discord">
             <svg viewBox="0 0 127.14 96.36">
@@ -726,6 +710,58 @@
         </div>
       </div>
 
+      <!-- Section Événements dynamique avec support d'image -->
+      <div id="events-section" class="section-details" style="display: none;">
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <div>
+            <h2 id="event-title" style="margin-bottom: 8px;">Événement en cours</h2>
+            <p id="event-desc" style="margin: 0;">Chargement de l'événement...</p>
+          </div>
+          
+          <!-- Image dynamique de l'événement -->
+          <div id="event-image-container" style="display: none; width: 100%; max-height: 400px; overflow: hidden; border-radius: 16px; border: 1px solid var(--card-border);">
+            <img id="event-image" src="" alt="Visuel de l'événement" style="width: 100%; height: auto; display: block; object-fit: cover;" />
+          </div>
+
+          <div class="performance-grid" style="margin-top: 0;">
+            <div class="perf-item">
+              <strong>Statut</strong>
+              <span id="event-status">Actif</span>
+            </div>
+            <div class="perf-item">
+              <strong>Récompense / Bonus</strong>
+              <span id="event-reward">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Statistiques en direct avec Graphique -->
+      <div class="section-details">
+        <h2>Statistiques & Historique en Direct</h2>
+        <p>Suivi en temps réel de l'affluence des joueurs connectés sur le serveur :</p>
+        
+        <div class="performance-grid" style="margin-bottom: 30px;">
+          <div class="perf-item">
+            <strong>Statut</strong>
+            <span id="live-status">Vérification...</span>
+          </div>
+          <div class="perf-item">
+            <strong>Joueurs Actuels</strong>
+            <span id="live-players">- / -</span>
+          </div>
+          <div class="perf-item">
+            <strong>Version du jeu</strong>
+            <span>Forge 1.20.1</span>
+          </div>
+        </div>
+
+        <!-- Conteneur du Graphique Chart.js -->
+        <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 25px; position: relative; height: 300px;">
+          <canvas id="playerChart"></canvas>
+        </div>
+      </div>
+
       <div class="section-details">
         <h2>Configuration Performance</h2>
         <p>Matériel minimum requis pour jouer dans de bonnes conditions (30+ FPS) :</p>
@@ -758,84 +794,6 @@
         </div>
       </div>
 
-      <!-- Section Boutique / Soutien BDE -->
-      <div id="boutique" class="section-details">
-        <!-- En-tête de section avec le style de ton image -->
-        <div style="margin-bottom: 25px;">
-          <h2 style="font-size: 28px; font-weight: 700; margin: 0 0 8px 0; color: var(--text-main); letter-spacing: -0.5px;">Boutique</h2>
-          <p style="font-size: 14px; color: var(--text-muted); margin: 0; font-weight: 500;">La Boutique du serveur Aticraft</p>
-        </div>
-
-        <p style="margin-bottom: 25px;">Aticraft est un serveur géré par le BDE ATIDUT. Participer aux frais d'hébergement te donne droit à des bonus cosmétiques et de confort in-game, sans jamais casser l'équilibrage du jeu (zéro pay-to-win).</p>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-          
-          <!-- Grade Étudiant de Poche -->
-          <div style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 24px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-              <span style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--accent); background: var(--glass-bg); border: 1px solid var(--accent-glow); padding: 6px 12px; border-radius: 6px; display: inline-block; margin-bottom: 15px;">ENTRÉE DE GAMME</span>
-              <h3 style="margin: 0 0 10px 0; font-size: 20px; color: var(--text-main);">Pack Étudiant</h3>
-              <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
-                Le prix d'un espresso pour filer un coup de pouce rapide au BDE et obtenir quelques conforts pratiques.
-              </p>
-              <ul style="margin: 0; padding-left: 18px; font-size: 13px; color: var(--text-main); display: flex; flex-direction: column; gap: 8px;">
-                <li>Préfixe coloré <strong>[Soutien]</strong> dans le chat</li>
-                <li>Commande <code>/workbench</code> portable</li>
-                <li>1 home supplémentaire sauvegardé</li>
-              </ul>
-            </div>
-            <div style="margin-top: 30px; display: flex; align-items: center; justify-content: space-between;">
-              <span style="font-size: 18px; font-weight: 700; color: var(--accent);">2 €</span>
-              <a href="https://www.helloasso.com/associations/association-toulousaine-des-informaticiens-preparant-un-diplome-universitaire-de-technologie/boutiques/aticraft-sub" target="_blank" class="download-btn" style="padding: 10px 20px; font-size: 12px;">Obtenir</a>
-            </div>
-          </div>
-
-          <!-- Grade Mécène / VIP -->
-          <div style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 24px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-              <span style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--accent); background: var(--glass-bg); border: 1px solid var(--accent-glow); padding: 6px 12px; border-radius: 6px; display: inline-block; margin-bottom: 15px;">POPULAIRE</span>
-              <h3 style="margin: 0 0 10px 0; font-size: 20px; color: var(--text-main);">Pack BDE Mécène</h3>
-              <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
-                Idéal pour les étudiants qui veulent flex un peu tout en finançant la machine du serveur.
-              </p>
-              <ul style="margin: 0; padding-left: 18px; font-size: 13px; color: var(--text-main); display: flex; flex-direction: column; gap: 8px;">
-                <li>Préfixe exclusif <strong>[Mécène]</strong> dans le chat</li>
-                <li>Commande <code>/hat</code> (mettre n'importe quel bloc sur sa tête)</li>
-                <li>3 homes supplémentaires</li>
-                <li>Accès prioritaire au skin personnalisé (Serveur Crack)</li>
-                <li>Rôle exclusif sur le Discord de l'asso</li>
-              </ul>
-            </div>
-            <div style="margin-top: 30px; display: flex; align-items: center; justify-content: space-between;">
-              <span style="font-size: 18px; font-weight: 700; color: var(--accent);">5 €</span>
-              <a href="https://www.helloasso.com/associations/association-toulousaine-des-informaticiens-preparant-un-diplome-universitaire-de-technologie/boutiques/aticraft-sub" target="_blank" class="download-btn" style="padding: 10px 20px; font-size: 12px;">Obtenir</a>
-            </div>
-          </div>
-
-          <!-- Pack Légende / Collector -->
-          <div style="background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 24px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-              <span style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--accent); background: var(--glass-bg); border: 1px solid var(--accent-glow); padding: 6px 12px; border-radius: 6px; display: inline-block; margin-bottom: 15px;">LÉGENDE</span>
-              <h3 style="margin: 0 0 10px 0; font-size: 20px; color: var(--text-main);">Pack Légende IUT</h3>
-              <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
-                Pour les plus investis qui veulent marquer le coup et soutenir à fond la Saison 1.
-              </p>
-              <ul style="margin: 0; padding-left: 18px; font-size: 13px; color: var(--text-main); display: flex; flex-direction: column; gap: 8px;">
-                <li>Préfixe personnalisé <strong>[Légende]</strong></li>
-                <li>Tous les avantages des grades précédents</li>
-                <li>Particules cosmétiques de déplacement</li>
-                <li>Nom gravé sur un monument commémoratif au spawn</li>
-              </ul>
-            </div>
-            <div style="margin-top: 30px; display: flex; align-items: center; justify-content: space-between;">
-              <span style="font-size: 18px; font-weight: 700; color: var(--accent);">10 €</span>
-              <a href="https://www.helloasso.com/associations/association-toulousaine-des-informaticiens-preparant-un-diplome-universitaire-de-technologie/boutiques/aticraft-sub" target="_blank" class="download-btn" style="padding: 10px 20px; font-size: 12px;">Obtenir</a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
       <footer>
         <div>2026 BDE ATIDUT - Universite Paul Sabatier</div>
         <div>Developpe sous Tauri et GitHub Pages</div>
@@ -863,41 +821,162 @@
         }
       });
 
-      // Fetch dynamique avec le lien raw exact
-      fetch('mods.json', { cache: 'no-store' }) // Empêche le cache 304 bloquant
-  .then(response => {
-    if (!response.ok && response.status !== 304) {
-      throw new Error("Erreur réseau ou fichier introuvable");
-    }
-    return response.json();
-  })
-  .then(data => {
-    const container = document.getElementById('mods-list'); // Mets l'ID de ton conteneur ici
-    if (!container) return;
-    
-    container.innerHTML = ''; // Nettoie le "Chargement..."
+      // Gestion de la section Événements dynamique avec support d'image via events.json
+      fetch('events.json', { cache: 'no-store' })
+        .then(response => {
+          if (!response.ok) throw new Error("Pas d'événement actif");
+          return response.json();
+        })
+        .then(eventData => {
+          if (eventData && eventData.active) {
+            const section = document.getElementById('events-section');
+            document.getElementById('event-title').textContent = eventData.title || "Événement Spécial";
+            document.getElementById('event-desc').textContent = eventData.description || "";
+            document.getElementById('event-status').textContent = eventData.statusText || "En cours";
+            document.getElementById('event-reward').textContent = eventData.reward || "Surprise in-game";
 
-    // Sécurisation : on s'assure d'avoir un tableau valide
-    const mods = Array.isArray(data) ? data : (data.mods || []);
+            // Gestion de l'affichage de l'image si elle est renseignée dans le JSON
+            const imgContainer = document.getElementById('event-image-container');
+            const imgElement = document.getElementById('event-image');
+            if (eventData.imageUrl && eventData.imageUrl.trim() !== "") {
+              imgElement.src = eventData.imageUrl;
+              imgContainer.style.display = 'block';
+            } else {
+              imgContainer.style.display = 'none';
+            }
 
-    if (mods.length === 0) {
-      container.innerHTML = '<p>Aucun mod trouvé dans le manifeste.</p>';
-      return;
-    }
+            section.style.display = 'block';
+          }
+        })
+        .catch(err => {
+          console.log("Aucun événement en cours.");
+        });
 
-    mods.forEach(mod => {
-      const p = document.createElement('p');
-      p.textContent = typeof mod === 'string' ? mod : (mod.name || 'Mod inconnu');
-      container.appendChild(p);
-    });
-  })
-  .catch(error => {
-    console.error("Erreur de chargement des mods :", error);
-    const container = document.getElementById('id-de-ton-conteneur');
-    if (container) {
-      container.innerHTML = '<p>Erreur lors du chargement de la liste des mods.</p>';
-    }
-  });
+      // Configuration du Graphique Chart.js
+      const ctx = document.getElementById('playerChart').getContext('2d');
+      const playerChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [{
+            label: 'Joueurs connectés',
+            data: [],
+            borderColor: '#a94b3e',
+            backgroundColor: 'rgba(169, 75, 62, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: {
+                color: '#eaddc0',
+                font: { family: 'Plus Jakarta Sans', weight: '600' }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: { color: 'rgba(234, 221, 192, 0.6)' }
+            },
+            y: {
+              beginAtZero: true,
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: { color: 'rgba(234, 221, 192, 0.6)', stepSize: 1 }
+            }
+          }
+        }
+      });
+
+      // Fonction de récupération des stats en temps réel et mise à jour du graphique
+      async function fetchServerStats() {
+        try {
+          const response = await fetch('https://api.mcsrvstat.us/3/play.aticraft.fr');
+          const data = await response.json();
+
+          const headerDot = document.getElementById('header-dot');
+          const headerText = document.getElementById('header-status-text');
+          const liveStatus = document.getElementById('live-status');
+          const livePlayers = document.getElementById('live-players');
+
+          const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+          let currentOnline = 0;
+
+          if (data.online) {
+            headerDot.style.backgroundColor = '#22c55e';
+            headerDot.style.boxShadow = '0 0 8px #22c55e';
+            if(headerText) headerText.textContent = 'Serveur en ligne';
+            if(liveStatus) liveStatus.innerHTML = '<span style="color: #22c55e;">● En ligne</span>';
+            currentOnline = data.players.online;
+            if(livePlayers) livePlayers.textContent = `${currentOnline} / ${data.players.max}`;
+          } else {
+            headerDot.style.backgroundColor = '#ef4444';
+            headerDot.style.boxShadow = '0 0 8px #ef4444';
+            if(headerText) headerText.textContent = 'Serveur hors-ligne';
+            if(liveStatus) liveStatus.innerHTML = '<span style="color: #ef4444;">● Hors-ligne</span>';
+            if(livePlayers) livePlayers.textContent = '0 / 0';
+          }
+
+          playerChart.data.labels.push(now);
+          playerChart.data.datasets[0].data.push(currentOnline);
+
+          if (playerChart.data.labels.length > 10) {
+            playerChart.data.labels.shift();
+            playerChart.data.datasets[0].data.shift();
+          }
+
+          playerChart.update();
+
+        } catch (error) {
+          console.error("Erreur stats serveur:", error);
+          const liveStatus = document.getElementById('live-status');
+          if(liveStatus) liveStatus.textContent = 'Inaccessible';
+        }
+      }
+
+      fetchServerStats();
+      setInterval(fetchServerStats, 60000);
+
+      // Fetch dynamique des mods
+      fetch('mods.json', { cache: 'no-store' })
+      .then(response => {
+        if (!response.ok && response.status !== 304) {
+          throw new Error("Erreur réseau ou fichier introuvable");
+        }
+        return response.json();
+      })
+      .then(data => {
+        const container = document.getElementById('mods-list');
+        if (!container) return;
+        
+        container.innerHTML = '';
+
+        const mods = Array.isArray(data) ? data : (data.mods || []);
+
+        if (mods.length === 0) {
+          container.innerHTML = '<p>Aucun mod trouvé dans le manifeste.</p>';
+          return;
+        }
+
+        mods.forEach(mod => {
+          const p = document.createElement('p');
+          p.textContent = typeof mod === 'string' ? mod : (mod.name || 'Mod inconnu');
+          container.appendChild(p);
+        });
+      })
+      .catch(error => {
+        console.error("Erreur de chargement des mods :", error);
+        const container = document.getElementById('mods-list');
+        if (container) {
+          container.innerHTML = '<p>Erreur lors du chargement de la liste des mods.</p>';
+        }
+      });
     </script>
   </body>
 </html>
