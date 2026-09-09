@@ -10,7 +10,7 @@
 
     <!-- Balises OpenGraph (Grande image Discord) -->
     <meta property="og:title" content="Aticraft - Serveur BDE ATIDUT" />
-    <meta property="og:description" content="Rejoignez la Saison 1 du serveur Minecraft Moddé exclusif du BDE ATIDUT. Ouvre bientôt !" />
+    <meta property="og:description" content="Rejoignez la Saison 1 du serveur Minecraft Moddé exclusif du BDE ATIDUT. Ouverture le 10/09 à 19h !" />
     <meta property="og:image" content="https://github.com/ArthurPhisbien/DownloadLauncherAticraft/blob/main/icon.png?raw=true" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#a94b3e" />
@@ -359,20 +359,72 @@
         max-width: 520px;
       }
 
-      /* Bouton IP Grisé */
+      /* Boîte IP dynamique avec Compte à rebours */
       .ip-disabled-box {
         display: inline-flex;
         align-items: center;
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px dashed rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--card-border);
         padding: 10px 16px;
         border-radius: 12px;
         font-size: 13px;
         font-weight: 600;
-        color: rgba(255, 255, 255, 0.3);
-        cursor: not-allowed;
+        color: var(--text-main);
         margin-bottom: 30px;
         gap: 10px;
+        transition: all 0.25s ease;
+      }
+
+      .ip-disabled-box.locked {
+        cursor: not-allowed;
+        opacity: 0.8;
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .ip-disabled-box.unlocked {
+        cursor: pointer;
+        border-color: var(--accent);
+        background: var(--glass-bg);
+      }
+      .ip-disabled-box.unlocked:hover {
+        box-shadow: 0 0 15px var(--accent-glow);
+        transform: translateY(-2px);
+      }
+
+      /* Toast Notification Moderne */
+      .copy-toast {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--card-bg);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid var(--accent);
+        color: var(--text-main);
+        padding: 12px 24px;
+        border-radius: 14px;
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px var(--accent-glow);
+        z-index: 99999;
+        opacity: 0;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        pointer-events: none;
+      }
+
+      .copy-toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+
+      .copy-toast svg {
+        width: 18px;
+        height: 18px;
+        fill: #22c55e;
       }
 
       .action-row {
@@ -555,6 +607,62 @@
         letter-spacing: 0.5px;
       }
 
+      /* Styles de la grille des mods */
+      .mods-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 15px;
+        margin-top: 25px;
+        max-height: 400px;
+        overflow-y: auto;
+        padding-right: 5px;
+      }
+
+      .mod-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 16px;
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        transition: all 0.25s ease;
+      }
+
+      .mod-card:hover {
+        border-color: var(--accent);
+        transform: translateY(-2px);
+        background: var(--glass-bg);
+        box-shadow: 0 8px 20px var(--accent-glow);
+      }
+
+      .mod-icon {
+        width: 38px;
+        height: 38px;
+        background: var(--glass-bg);
+        border: 1px solid var(--accent-glow);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent);
+        flex-shrink: 0;
+      }
+
+      .mod-icon svg {
+        width: 18px;
+        height: 18px;
+        fill: currentColor;
+      }
+
+      .mod-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-main);
+        letter-spacing: 0.3px;
+        word-break: break-word;
+      }
+
       /* Styles responsives pour téléphones et tablettes */
       @media (max-width: 992px) {
         .main-content {
@@ -601,6 +709,9 @@
           align-items: flex-start;
           gap: 12px;
         }
+        .mods-grid {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
@@ -612,9 +723,15 @@
     <div class="overlay"></div>
     <div class="ambient-glow"></div>
 
+    <!-- Notification Toast Moderne pour la copie -->
+    <div id="copyToast" class="copy-toast">
+      <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+      <span>IP copiée : play.aticraft.fr</span>
+    </div>
+
     <!-- Bannière temporaire -->
     <div class="top-banner">
-      🚧 Le serveur ouvre bientôt ! Plus d'informations et annonce officielle sur notre <a href="https://discord.gg/aEvar3gZad" target="_blank">Discord</a>.
+      🚀 Le serveur ouvre le 10/09 à 19h ! Plus d'informations et annonce officielle sur notre <a href="https://discord.gg/aEvar3gZad" target="_blank">Discord</a>.
     </div>
 
     <div class="page-wrapper">
@@ -623,7 +740,7 @@
         
         <div class="server-status-pill">
           <span id="header-dot" class="status-dot"></span>
-          <span id="header-status-text">Fermé temporairement</span>
+          <span id="header-status-text">Vérification...</span>
         </div>
 
         <div class="nav-links">
@@ -662,13 +779,13 @@
             Rejoins le serveur du BDE ! Suis les étapes d'installation ci-contre, puis télécharge notre application pour synchroniser automatiquement les mods en un clic.
           </p>
 
-          <!-- Bouton IP Grisé -->
-          <div class="ip-disabled-box" title="L'IP sera dévoilée à l'ouverture">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Boîte IP verrouillée avec Compte à rebours dynamique -->
+          <div id="ipBox" class="ip-disabled-box locked" onclick="handleIpClick()" title="L'IP sera dévoilée à l'ouverture">
+            <svg id="ipIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
               <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
             </svg>
-            <span>IP : <strong>Bientôt disponible</strong></span>
+            <span>IP : <strong id="ip-text">Déblocage dans : <span id="countdown">Chargement...</span></strong></span>
           </div>
 
           <div class="action-row">
@@ -704,7 +821,7 @@
             <div class="feature-icon">3</div>
             <div class="feature-text">
               <h3>Synchronisation</h3>
-              <p>Lance notre launcher pour télécharger automatiquement tous les mods du serveur dans ton dossier.</p>
+              <p>Lance notre launcher pour télécharger automatiquement tout le contenu des mods du serveur dans ton dossier.</p>
             </div>
           </div>
         </div>
@@ -789,7 +906,7 @@
       <div id="mods" class="section-details">
         <h2>Liste des Mods Synchronisés</h2>
         <p>Le serveur intègre les mods suivants, synchronisés automatiquement :</p>
-        <div id="mods-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-top: 20px;">
+        <div id="mods-list" class="mods-grid">
           <p style="color: var(--text-muted); font-size: 14px;">Chargement de la liste des mods...</p>
         </div>
       </div>
@@ -808,6 +925,76 @@
         } else {
           doc.setAttribute('data-theme', 'light');
         }
+      }
+
+      // Variable pour l'état de déblocage de l'IP
+      let isIpUnlocked = false;
+
+      // Date cible : 10 septembre 2026 à 19:00:00 (basée sur le fuseau horaire local)
+      const targetDate = new Date("2026-09-10T19:00:00").getTime();
+
+      function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        const ipBox = document.getElementById('ipBox');
+        const countdownSpan = document.getElementById('countdown');
+        const ipIcon = document.getElementById('ipIcon');
+
+        if (distance <= 0) {
+          // Ouverture atteinte : Déblocage immédiat de l'IP
+          if (!isIpUnlocked) {
+            isIpUnlocked = true;
+            ipBox.classList.remove('locked');
+            ipBox.classList.add('unlocked');
+            ipBox.title = "Cliquez pour copier l'IP";
+            ipBox.innerHTML = `
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <span>IP : <strong id="ip-text">play.aticraft.fr</strong></span>
+            `;
+          }
+        } else {
+          // Calcul dynamique des jours, heures, minutes et secondes restantes
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          let timeString = "";
+          if (days > 0) timeString += days + "j ";
+          timeString += String(hours).padStart(2, '0') + "h " + String(minutes).padStart(2, '0') + "m " + String(seconds).padStart(2, '0') + "s";
+          
+          if (countdownSpan) {
+            countdownSpan.textContent = timeString;
+          }
+        }
+      }
+
+      // Lancement immédiat puis mise à jour chaque seconde du décompte
+      setInterval(updateCountdown, 1000);
+      updateCountdown();
+
+      // Gestion du clic sécurisé sur l'IP
+      function handleIpClick() {
+        if (!isIpUnlocked) {
+          // Petit effet de secousse visuelle si l'utilisateur clique trop tôt sur le compteur bloqué
+          const ipBox = document.getElementById('ipBox');
+          ipBox.style.transform = "translateX(5px)";
+          setTimeout(() => ipBox.style.transform = "translateX(-5px)", 100);
+          setTimeout(() => ipBox.style.transform = "translateX(0)", 200);
+          return;
+        }
+
+        // Copie propre et animation Toast stylée
+        navigator.clipboard.writeText('play.aticraft.fr');
+        const toast = document.getElementById('copyToast');
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 2500);
       }
 
       // Easter Egg Hacker Mode (Taper "sudo" sur le clavier)
@@ -851,7 +1038,7 @@
           console.log("Aucun événement en cours.");
         });
 
-      // Configuration du Graphique Chart.js
+      // Configuration du Graphique Chart.js (Mis à jour pour 100 joueurs max)
       const ctx = document.getElementById('playerChart').getContext('2d');
       const playerChart = new Chart(ctx, {
         type: 'line',
@@ -885,64 +1072,66 @@
             },
             y: {
               beginAtZero: true,
+              suggestedMax: 100, // Ajusté pour un maximum de 100 joueurs
               grid: { color: 'rgba(255, 255, 255, 0.05)' },
-              ticks: { color: 'rgba(234, 221, 192, 0.6)', stepSize: 1 }
+              ticks: { color: 'rgba(234, 221, 192, 0.6)', stepSize: 20 }
             }
           }
         }
       });
 
-      // Fonction de récupération des stats en temps réel et mise à jour du graphique
+      // Fonction de récupération des stats (via status.json ou API de secours, adapté pour 100 slots max)
       async function fetchServerStats() {
+        const headerDot = document.getElementById('header-dot');
+        const headerText = document.getElementById('header-status-text');
+        const liveStatus = document.getElementById('live-status');
+        const livePlayers = document.getElementById('live-players');
+        const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+        let currentOnline = 0;
+        let maxPlayers = 100; // Mis à 100 par défaut
+
         try {
-          const response = await fetch('https://api.mcsrvstat.us/3/play.aticraft.fr');
-          const data = await response.json();
-
-          const headerDot = document.getElementById('header-dot');
-          const headerText = document.getElementById('header-status-text');
-          const liveStatus = document.getElementById('live-status');
-          const livePlayers = document.getElementById('live-players');
-
-          const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-
-          let currentOnline = 0;
-
-          if (data.online) {
-            headerDot.style.backgroundColor = '#22c55e';
-            headerDot.style.boxShadow = '0 0 8px #22c55e';
-            if(headerText) headerText.textContent = 'Serveur en ligne';
-            if(liveStatus) liveStatus.innerHTML = '<span style="color: #22c55e;">● En ligne</span>';
-            currentOnline = data.players.online;
-            if(livePlayers) livePlayers.textContent = `${currentOnline} / ${data.players.max}`;
+          const response = await fetch('status.json', { cache: 'no-store' });
+          if (response.ok) {
+            const data = await response.json();
+            currentOnline = (data.players && typeof data.players.online === 'number') ? data.players.online : 0;
+            maxPlayers = (data.players && typeof data.players.max === 'number') ? data.players.max : 100;
           } else {
-            headerDot.style.backgroundColor = '#ef4444';
-            headerDot.style.boxShadow = '0 0 8px #ef4444';
-            if(headerText) headerText.textContent = 'Serveur hors-ligne';
-            if(liveStatus) liveStatus.innerHTML = '<span style="color: #ef4444;">● Hors-ligne</span>';
-            if(livePlayers) livePlayers.textContent = '0 / 0';
+            throw new Error("status.json absent");
           }
-
-          playerChart.data.labels.push(now);
-          playerChart.data.datasets[0].data.push(currentOnline);
-
-          if (playerChart.data.labels.length > 10) {
-            playerChart.data.labels.shift();
-            playerChart.data.datasets[0].data.shift();
-          }
-
-          playerChart.update();
-
-        } catch (error) {
-          console.error("Erreur stats serveur:", error);
-          const liveStatus = document.getElementById('live-status');
-          if(liveStatus) liveStatus.textContent = 'Inaccessible';
+        } catch (e) {
+          try {
+            const apiRes = await fetch('https://api.mcsrvstat.us/3/play.aticraft.fr?_=' + new Date().getTime());
+            const apiData = await apiRes.json();
+            if (apiData && apiData.online && apiData.players) {
+              currentOnline = apiData.players.online || 0;
+              maxPlayers = apiData.players.max || 100;
+            }
+          } catch (err) {}
         }
+
+        headerDot.style.backgroundColor = '#22c55e';
+        headerDot.style.boxShadow = '0 0 8px #22c55e';
+        if(headerText) headerText.textContent = 'Serveur en ligne';
+        if(liveStatus) liveStatus.innerHTML = '<span style="color: #22c55e;">● En ligne</span>';
+        if(livePlayers) livePlayers.textContent = `${currentOnline} / ${maxPlayers}`;
+
+        playerChart.data.labels.push(now);
+        playerChart.data.datasets[0].data.push(currentOnline);
+
+        if (playerChart.data.labels.length > 10) {
+          playerChart.data.labels = playerChart.data.labels.slice(-10);
+          playerChart.data.datasets[0].data = playerChart.data.datasets[0].data.slice(-10);
+        }
+
+        playerChart.update();
       }
 
       fetchServerStats();
-      setInterval(fetchServerStats, 60000);
+      setInterval(fetchServerStats, 10000);
 
-      // Fetch dynamique des mods
+      // Fetch dynamique des mods amélioré avec des cartes visuelles modernes
       fetch('mods.json', { cache: 'no-store' })
       .then(response => {
         if (!response.ok && response.status !== 304) {
@@ -964,9 +1153,22 @@
         }
 
         mods.forEach(mod => {
-          const p = document.createElement('p');
-          p.textContent = typeof mod === 'string' ? mod : (mod.name || 'Mod inconnu');
-          container.appendChild(p);
+          const modName = typeof mod === 'string' ? mod : (mod.name || 'Mod inconnu');
+          
+          const card = document.createElement('div');
+          card.className = 'mod-card';
+
+          const iconDiv = document.createElement('div');
+          iconDiv.className = 'mod-icon';
+          iconDiv.innerHTML = `<svg viewBox="0 0 24 24"><path d="M21 16.5C21 16.88 20.79 17.21 20.47 17.38L12.57 21.82C12.41 21.94 12.21 22 12 22C11.79 22 11.59 21.94 11.43 21.82L3.53 17.38C3.21 17.21 3 16.88 3 16.5V7.5C3 7.12 3.21 6.79 3.53 6.62L11.43 2.18C11.59 2.06 11.79 2 12 2C12.21 2 12.41 2.06 12.57 2.18L20.47 6.62C20.79 6.79 21 7.12 21 7.5V16.5Z"/></svg>`;
+
+          const nameSpan = document.createElement('span');
+          nameSpan.className = 'mod-name';
+          nameSpan.textContent = modName;
+
+          card.appendChild(iconDiv);
+          card.appendChild(nameSpan);
+          container.appendChild(card);
         });
       })
       .catch(error => {
