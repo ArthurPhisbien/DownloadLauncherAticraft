@@ -1,8 +1,8 @@
 {
   "active": true,
-  "title": "Chasse aux trésors au Spawn !",
-  "description": "Des coffres cachés remplis de loots légendaires t'attendent autour du spawn principal. Ouvre l'œil !",
+  "title": "OUVERTURE DU SERVEUR",
+  "description": "Bienvenue a tous le monde, NOUS vous remercions tous de venir jouer",
   "imageUrl": "event.png",
   "statusText": "En cours ⚡",
-  "reward": "Armure en Netherite custom"
+  "reward": "Clé de crate Commune x1"
 }

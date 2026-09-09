@@ -710,7 +710,7 @@
         </div>
       </div>
 
-      <!-- Section Événements dynamique avec support d'image -->
+      <!-- Section Événements dynamique avec hauteur ajustable à l'image -->
       <div id="events-section" class="section-details" style="display: none;">
         <div style="display: flex; flex-direction: column; gap: 20px;">
           <div>
@@ -718,9 +718,9 @@
             <p id="event-desc" style="margin: 0;">Chargement de l'événement...</p>
           </div>
           
-          <!-- Image dynamique de l'événement -->
-          <div id="event-image-container" style="display: none; width: 100%; max-height: 400px; overflow: hidden; border-radius: 16px; border: 1px solid var(--card-border);">
-            <img id="event-image" src="" alt="Visuel de l'événement" style="width: 100%; height: auto; display: block; object-fit: cover;" />
+          <!-- Image dynamique avec hauteur adaptable et coins arrondis parfaits -->
+          <div id="event-image-container" style="display: none; width: 100%; overflow: hidden; border-radius: 16px; border: 1px solid var(--card-border); background: rgba(0, 0, 0, 0.4); text-align: center;">
+            <img id="event-image" src="" alt="Visuel de l'événement" style="width: 100%; height: auto; display: block;" />
           </div>
 
           <div class="performance-grid" style="margin-top: 0;">
@@ -835,7 +835,6 @@
             document.getElementById('event-status').textContent = eventData.statusText || "En cours";
             document.getElementById('event-reward').textContent = eventData.reward || "Surprise in-game";
 
-            // Gestion de l'affichage de l'image si elle est renseignée dans le JSON
             const imgContainer = document.getElementById('event-image-container');
             const imgElement = document.getElementById('event-image');
             if (eventData.imageUrl && eventData.imageUrl.trim() !== "") {
