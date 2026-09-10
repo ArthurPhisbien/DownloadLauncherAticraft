@@ -726,7 +726,7 @@
     <!-- Notification Toast Moderne pour la copie -->
     <div id="copyToast" class="copy-toast">
       <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-      <span>IP copiée : play.aticraft.fr</span>
+      <span>IP copiée : play.atidut.fr</span>
     </div>
 
     <!-- Bannière temporaire -->
@@ -953,7 +953,7 @@
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                 <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
               </svg>
-              <span>IP : <strong id="ip-text">play.aticraft.fr</strong></span>
+              <span>IP : <strong id="ip-text">play.atidut.fr</strong></span>
             `;
           }
         } else {
@@ -989,7 +989,7 @@
         }
 
         // Copie propre et animation Toast stylée
-        navigator.clipboard.writeText('play.aticraft.fr');
+        navigator.clipboard.writeText('play.atidut.fr');
         const toast = document.getElementById('copyToast');
         toast.classList.add('show');
         setTimeout(() => {
@@ -1102,7 +1102,7 @@
           }
         } catch (e) {
           try {
-            const apiRes = await fetch('https://api.mcsrvstat.us/3/play.aticraft.fr?_=' + new Date().getTime());
+            const apiRes = await fetch('https://api.mcsrvstat.us/3/play.atidut.fr?_=' + new Date().getTime());
             const apiData = await apiRes.json();
             if (apiData && apiData.online && apiData.players) {
               currentOnline = apiData.players.online || 0;
